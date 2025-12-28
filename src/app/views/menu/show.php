@@ -58,7 +58,7 @@
                             </ul>
                         </div>
                     <?php endif; ?>
-                <div class="card shadow sticky-top" style="top: 20px;">
+
                     <?php if (!empty($plats_principaux)): ?>
                         <div class="mb-4">
                             <h5 class="text-primary">🍖 Plats principaux</h5>
@@ -104,7 +104,7 @@
 
         <!-- Colonne droite - Commande -->
         <div class="col-md-4">
-            <div class="card shadow">
+            <div class="card shadow sticky-top" style="top: 20px;">
                 <div class="card-body">
                     <h3 class="text-center mb-4">Commander</h3>
 
@@ -156,6 +156,86 @@
                     <a href="/menu" class="btn btn-outline-secondary w-100">
                         ← Retour aux menus
                     </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Section Avis -->
+    <?php
+    // Récupérer les avis du menu
+    $avisModel = new Avis($conn);
+    $avis_menu = $avisModel->getByMenu($menu['id_menu']);
+    $rating = $avisModel->getAverageRating($menu['id_menu']);
+    ?>
+    
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0">⭐ Avis clients</h4>
+                        <?php if ($rating['total'] > 0): ?>
+                            <div>
+                                <span style="color: #ffc107; font-size: 1.5rem;">
+                                    <?= str_repeat('★', round($rating['moyenne'])) . str_repeat('☆', 5 - round($rating['moyenne'])) ?>
+                                </span>
+                                <span class="ms-2">
+                                    <?= number_format($rating['moyenne'], 1) ?>/5 
+                                    <small class="text-muted">(<?= $rating['total'] ?> avis)</small>
+                                </span>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <?php if (isset($_SESSION['user_id'])): ?>
+                        <?php
+                        $userHasReviewed = $avisModel->userHasReviewed($_SESSION['user_id'], $menu['id_menu']);
+                        $userCanReview = $avisModel->userCanReview($_SESSION['user_id'], $menu['id_menu']);
+                        ?>
+                        
+                        <?php if (!$userHasReviewed && $userCanReview): ?>
+                            <div class="alert alert-info">
+                                <strong>Vous avez commande ce menu ?</strong>
+                                <a href="/avis/create/<?= $menu['id_menu'] ?>" class="btn btn-sm btn-warning ms-2">
+                                    Laisser un avis
+                                </a>
+                            </div>
+                        <?php elseif ($userHasReviewed): ?>
+                            <div class="alert alert-success">
+                                ✅ Vous avez deja laisse un avis pour ce menu
+                            </div>
+                        <?php endif; ?>
+                    <?php endif; ?>
+                    
+                    <?php if (!empty($avis_menu)): ?>
+                        <?php foreach ($avis_menu as $avis): ?>
+                            <div class="border-bottom pb-3 mb-3">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <div>
+                                        <strong><?= htmlspecialchars($avis['prenom']) ?></strong>
+                                        <span style="color: #ffc107; font-size: 1.2rem; margin-left: 10px;">
+                                            <?= str_repeat('★', $avis['note']) . str_repeat('☆', 5 - $avis['note']) ?>
+                                        </span>
+                                    </div>
+                                    <small class="text-muted">
+                                        <?= date('d/m/Y', strtotime($avis['date_creation'])) ?>
+                                    </small>
+                                </div>
+                                <p class="mb-0"><?= nl2br(htmlspecialchars($avis['commentaire'])) ?></p>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <div class="text-center py-4 text-muted">
+                            <p>Aucun avis pour le moment</p>
+                            <?php if (isset($_SESSION['user_id']) && !$userHasReviewed && $userCanReview): ?>
+                                <a href="/avis/create/<?= $menu['id_menu'] ?>" class="btn btn-warning">
+                                    Soyez le premier a laisser un avis !
+                                </a>
+                            <?php endif; ?>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>

@@ -48,6 +48,9 @@
                         <a class="nav-link <?= strpos($_SERVER['REQUEST_URI'], '/menu/admin') !== false ? 'active' : '' ?>" href="/menu/adminList">
                             🍽️ Menus
                     </a>
+                        <a class="nav-link <?= strpos($_SERVER['REQUEST_URI'], '/avis/admin') !== false ? 'active' : '' ?>" href="/avis/adminList">
+                            ⭐ Avis
+                    </a>
                         <a class="nav-link <?= strpos($_SERVER['REQUEST_URI'], '/admin/users') !== false ? 'active' : '' ?>" href="/admin/users">
                             👥 Utilisateurs
                     </a>
