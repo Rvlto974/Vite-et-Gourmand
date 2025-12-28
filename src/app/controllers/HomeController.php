@@ -18,11 +18,6 @@ class HomeController {
     }
     
     public function about() {
-        echo "<h1>À propos de Vite & Gourmand</h1>";
-        echo "<p>Traiteur événementiel à Bordeaux depuis 25 ans !</p>";
+        require_once __DIR__ . '/../views/home/about.php';
     }
-}
-
-public function about() {
-    require_once __DIR__ . '/../views/home/about.php';
 }
