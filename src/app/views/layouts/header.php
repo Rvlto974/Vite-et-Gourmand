@@ -20,13 +20,19 @@
                     <li class="nav-item"><a class="nav-link" href="/menu">Menus</a></li>
                     <li class="nav-item"><a class="nav-link" href="/home/about">A propos</a></li>
                     
-                <?php if (isset($_SESSION['user_id'])): ?>
+                    <?php if (isset($_SESSION['user_id'])): ?>
                         <!-- Menu utilisateur connecte -->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
                                 👤 <?= htmlspecialchars($_SESSION['user_prenom']) ?>
                             </a>
                             <ul class="dropdown-menu">
+                                <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin'): ?>
+                                    <li><a class="dropdown-item text-warning fw-bold" href="/admin">
+                                        🔧 Administration
+                                    </a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                <?php endif; ?>
                                 <li><a class="dropdown-item" href="/user/dashboard">Mon espace</a></li>
                                 <li><a class="dropdown-item" href="/user/orders">Mes commandes</a></li>
                                 <li><hr class="dropdown-divider"></li>
@@ -38,6 +44,7 @@
                         <li class="nav-item"><a class="nav-link" href="/auth/login">Connexion</a></li>
                         <li class="nav-item"><a class="nav-link btn btn-success text-white ms-2" href="/auth/register">S'inscrire</a></li>
                     <?php endif; ?>
+                </ul>
                 </ul>
             </div>
         </div>
