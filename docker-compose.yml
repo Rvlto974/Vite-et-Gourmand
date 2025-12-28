@@ -1,4 +1,4 @@
-version: '3.8'
+
 
 services:
   web:
@@ -9,7 +9,7 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - ./src:/var/www/html
+      - C:/env/workspace/vite-et-gourmand/src/public:/var/www/html
     depends_on:
       - db
       - mongodb
