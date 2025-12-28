@@ -15,11 +15,29 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+               <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="/">Accueil</a></li>
                     <li class="nav-item"><a class="nav-link" href="/menu">Menus</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/home/about">À propos</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/auth/login">Connexion</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/home/about">A propos</a></li>
+                    
+                    <?php if (isset($_SESSION['user_id'])): ?>
+                        <!-- Menu utilisateur connecte -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                👤 <?= htmlspecialchars($_SESSION['user_prenom']) ?>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/user/dashboard">Mon espace</a></li>
+                                <li><a class="dropdown-item" href="/user/orders">Mes commandes</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item text-danger" href="/auth/logout">Deconnexion</a></li>
+                            </ul>
+                        </li>
+                    <?php else: ?>
+                        <!-- Menu non connecte -->
+                        <li class="nav-item"><a class="nav-link" href="/auth/login">Connexion</a></li>
+                        <li class="nav-item"><a class="nav-link btn btn-success text-white ms-2" href="/auth/register">S'inscrire</a></li>
+                    <?php endif; ?>
                 </ul>
             </div>
         </div>
