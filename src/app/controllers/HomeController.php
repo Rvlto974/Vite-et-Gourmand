@@ -22,3 +22,7 @@ class HomeController {
         echo "<p>Traiteur événementiel à Bordeaux depuis 25 ans !</p>";
     }
 }
+
+public function about() {
+    require_once __DIR__ . '/../views/home/about.php';
+}

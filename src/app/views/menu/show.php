@@ -58,7 +58,7 @@
                             </ul>
                         </div>
                     <?php endif; ?>
-
+                <div class="card shadow sticky-top" style="top: 20px;">
                     <?php if (!empty($plats_principaux)): ?>
                         <div class="mb-4">
                             <h5 class="text-primary">🍖 Plats principaux</h5>
@@ -104,7 +104,7 @@
 
         <!-- Colonne droite - Commande -->
         <div class="col-md-4">
-            <div class="card shadow sticky-top" style="top: 20px;">
+            <div class="card shadow">
                 <div class="card-body">
                     <h3 class="text-center mb-4">Commander</h3>
 

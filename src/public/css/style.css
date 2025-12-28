@@ -32,3 +32,9 @@ body {
 footer {
     margin-top: auto;
 }
+
+/* Forcer le menu dropdown à gauche */
+.navbar .dropdown-menu {
+    left: 0 !important;
+    right: auto !important;
+}
