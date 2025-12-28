@@ -41,12 +41,16 @@
                     <nav class="nav flex-column">
                         <a class="nav-link <?= $_SERVER['REQUEST_URI'] == '/admin' || $_SERVER['REQUEST_URI'] == '/admin/index' ? 'active' : '' ?>" href="/admin">
                             📊 Dashboard
-                        </a>
+                    </a>
                         <a class="nav-link <?= strpos($_SERVER['REQUEST_URI'], '/admin/orders') !== false ? 'active' : '' ?>" href="/admin/orders">
                             📦 Commandes
-                        </a>
+                    </a>
+                        <a class="nav-link <?= strpos($_SERVER['REQUEST_URI'], '/menu/admin') !== false ? 'active' : '' ?>" href="/menu/adminList">
+                            🍽️ Menus
+                    </a>
                         <a class="nav-link <?= strpos($_SERVER['REQUEST_URI'], '/admin/users') !== false ? 'active' : '' ?>" href="/admin/users">
                             👥 Utilisateurs
+                    </a>
                         </a>
                         <hr class="bg-white">
                         <a class="nav-link" href="/">
