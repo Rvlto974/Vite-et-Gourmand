@@ -20,9 +20,9 @@ class User {
 
     // Inscription
     public function register() {
-        $query = "INSERT INTO " . $this->table . " 
-                  (nom, prenom, email, mot_de_passe, gsm, adresse_postale, role, actif) 
-                  VALUES (:nom, :prenom, :email, :mot_de_passe, :gsm, :adresse_postale, 'utilisateur', 1)";
+        $query = "  INSERT INTO " . $this->table . " 
+                    (nom, prenom, email, mot_de_passe, gsm, adresse_postale, role, actif) 
+                    VALUES (:nom, :prenom, :email, :mot_de_passe, :gsm, :adresse_postale, 'utilisateur', 1)";
 
         $stmt = $this->conn->prepare($query);
 

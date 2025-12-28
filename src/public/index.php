@@ -28,8 +28,14 @@ $url = explode('/', $url);
 
 // Déterminer le controller et l'action
 $controllerName = !empty($url[0]) ? ucfirst($url[0]) . 'Controller' : 'HomeController';
-$action = isset($url[1]) ? $url[1] : 'index';
-$params = array_slice($url, 2);
+$action = isset($url[1]) && !empty($url[1]) && !is_numeric($url[1]) ? $url[1] : 'index';
+
+// Si le deuxième segment est numérique, c'est un ID pour l'action index
+if (isset($url[1]) && is_numeric($url[1])) {
+    $params = array_slice($url, 1);
+} else {
+    $params = array_slice($url, 2);
+}
 
 // Vérifier si le controller existe
 $controllerFile = __DIR__ . '/../app/controllers/' . $controllerName . '.php';
@@ -46,4 +52,3 @@ if (file_exists($controllerFile)) {
 } else {
     echo "Controller '$controllerName' non trouvé";
 }
-?>
