@@ -38,24 +38,26 @@
             <div class="col-md-2 sidebar text-white p-0">
                 <div class="p-4">
                     <h3 class="text-center mb-4">🔧 Admin</h3>
-                    <nav class="nav flex-column">
-                        <a class="nav-link <?= $_SERVER['REQUEST_URI'] == '/admin' || $_SERVER['REQUEST_URI'] == '/admin/index' ? 'active' : '' ?>" href="/admin">
-                            📊 Dashboard
+                <nav class="nav flex-column">
+                    <a class="nav-link <?= $_SERVER['REQUEST_URI'] == '/admin' || $_SERVER['REQUEST_URI'] == '/admin/index' ? 'active' : '' ?>" href="/admin">
+                        📊 Dashboard
                     </a>
-                        <a class="nav-link <?= strpos($_SERVER['REQUEST_URI'], '/admin/orders') !== false ? 'active' : '' ?>" href="/admin/orders">
-                            📦 Commandes
+                    <a class="nav-link <?= strpos($_SERVER['REQUEST_URI'], '/admin/orders') !== false ? 'active' : '' ?>" href="/admin/orders">
+                        📦 Commandes
                     </a>
-                        <a class="nav-link <?= strpos($_SERVER['REQUEST_URI'], '/menu/admin') !== false ? 'active' : '' ?>" href="/menu/adminList">
-                            🍽️ Menus
+                    <a class="nav-link <?= strpos($_SERVER['REQUEST_URI'], '/menu/admin') !== false ? 'active' : '' ?>" href="/menu/adminList">
+                        🍽️ Menus
                     </a>
-                        <a class="nav-link <?= strpos($_SERVER['REQUEST_URI'], '/avis/admin') !== false ? 'active' : '' ?>" href="/avis/adminList">
-                            ⭐ Avis
+                    <a class="nav-link <?= strpos($_SERVER['REQUEST_URI'], '/avis/admin') !== false ? 'active' : '' ?>" href="/avis/adminList">
+                        ⭐ Avis
                     </a>
-                        <a class="nav-link <?= strpos($_SERVER['REQUEST_URI'], '/admin/users') !== false ? 'active' : '' ?>" href="/admin/users">
-                            👥 Utilisateurs
+                    <a class="nav-link <?= strpos($_SERVER['REQUEST_URI'], '/admin/users') !== false ? 'active' : '' ?>" href="/admin/users">
+                        👥 Utilisateurs
                     </a>
-                        </a>
-                        <hr class="bg-white">
+                    <a class="nav-link <?= strpos($_SERVER['REQUEST_URI'], '/contact/admin') !== false ? 'active' : '' ?>" href="/contact/adminList">
+                        📧 Messages
+                    </a>
+                            <hr class="bg-white">
                         <a class="nav-link" href="/">
                             🏠 Retour au site
                         </a>

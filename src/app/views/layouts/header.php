@@ -19,6 +19,7 @@
                     <li class="nav-item"><a class="nav-link" href="/">Accueil</a></li>
                     <li class="nav-item"><a class="nav-link" href="/menu">Menus</a></li>
                     <li class="nav-item"><a class="nav-link" href="/home/about">A propos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
                     
                     <?php if (isset($_SESSION['user_id'])): ?>
                         <!-- Menu utilisateur connecte -->
