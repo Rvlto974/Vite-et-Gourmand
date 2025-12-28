@@ -199,21 +199,22 @@ CREATE TABLE contact (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- =====================================================
+-- =====================================================
 -- DONNÉES DE TEST
 -- =====================================================
 
--- Insertion des thèmes
+-- Insertion des themes
 INSERT INTO theme (nom_theme) VALUES 
-('Noël'), ('Pâques'), ('Classique'), ('Événement');
+('Noel'), ('Paques'), ('Classique'), ('Evenement');
 
--- Insertion des régimes
+-- Insertion des regimes
 INSERT INTO regime (nom_regime) VALUES 
-('Classique'), ('Végétarien'), ('Vegan'), ('Sans gluten');
+('Classique'), ('Vegetarien'), ('Vegan'), ('Sans gluten');
 
--- Insertion des allergènes
+-- Insertion des allergenes
 INSERT INTO allergene (nom_allergene) VALUES 
-('Gluten'), ('Lactose'), ('Fruits à coque'), ('Œufs'), ('Poisson'), 
-('Crustacés'), ('Soja'), ('Céleri'), ('Moutarde'), ('Sésame');
+('Gluten'), ('Lactose'), ('Fruits a coque'), ('Oeufs'), ('Poisson'), 
+('Crustaces'), ('Soja'), ('Celeri'), ('Moutarde'), ('Sesame');
 
 -- Insertion des horaires
 INSERT INTO horaires (jour_semaine, heure_ouverture, heure_fermeture, ferme) VALUES 
@@ -225,41 +226,40 @@ INSERT INTO horaires (jour_semaine, heure_ouverture, heure_fermeture, ferme) VAL
 ('samedi', '10:00:00', '16:00:00', FALSE),
 ('dimanche', NULL, NULL, TRUE);
 
--- Compte admin (José) - Mot de passe : Admin123!
-
+-- Compte admin (Jose) - Mot de passe : Admin123!
 INSERT INTO utilisateur (nom, prenom, email, mot_de_passe, gsm, adresse_postale, role, actif) VALUES 
 ('Garcia', 'Jose', 'jose@vitegourmand.fr', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '0612345678', '123 Rue du Traiteur, 33000 Bordeaux', 'admin', TRUE);
 
--- Compte employé (Julie) - Mot de passe : Employe123!
+-- Compte employe (Julie) - Mot de passe : Employe123!
 INSERT INTO utilisateur (nom, prenom, email, mot_de_passe, gsm, adresse_postale, role, actif) VALUES 
 ('Dubois', 'Julie', 'julie@vitegourmand.fr', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '0623456789', '123 Rue du Traiteur, 33000 Bordeaux', 'employe', TRUE);
 
 -- Utilisateurs de test - Mot de passe : User123!
 INSERT INTO utilisateur (nom, prenom, email, mot_de_passe, gsm, adresse_postale, role, actif) VALUES 
-('Martin', 'Sophie', 'sophie.martin@email.fr', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '0634567890', '45 Avenue de la République, 33000 Bordeaux', 'utilisateur', TRUE),
+('Martin', 'Sophie', 'sophie.martin@email.fr', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '0634567890', '45 Avenue de la Republique, 33000 Bordeaux', 'utilisateur', TRUE),
 ('Dupont', 'Pierre', 'pierre.dupont@email.fr', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '0645678901', '78 Cours Victor Hugo, 33000 Bordeaux', 'utilisateur', TRUE);
 
 -- Insertion des plats
 INSERT INTO plat (nom_plat, type_plat, description) VALUES 
 ('Foie gras mi-cuit', 'entree', 'Foie gras maison avec chutney de figues'),
-('Saumon fumé', 'entree', 'Saumon fumé d\'Écosse, crème citronnée'),
-('Salade de chèvre chaud', 'entree', 'Salade composée, toast de fromage de chèvre'),
-('Dinde aux marrons', 'plat', 'Dinde fermière, purée de marrons'),
-('Pavé de saumon', 'plat', 'Pavé de saumon, légumes de saison'),
-('Risotto aux champignons', 'plat', 'Risotto crémeux, champignons forestiers'),
-('Bûche de Noël', 'dessert', 'Bûche chocolat-noisette'),
+('Saumon fume', 'entree', 'Saumon fume d Ecosse, creme citronnee'),
+('Salade de chevre chaud', 'entree', 'Salade composee, toast de fromage de chevre'),
+('Dinde aux marrons', 'plat', 'Dinde fermiere, puree de marrons'),
+('Pave de saumon', 'plat', 'Pave de saumon, legumes de saison'),
+('Risotto aux champignons', 'plat', 'Risotto cremeux, champignons forestiers'),
+('Buche de Noel', 'dessert', 'Buche chocolat-noisette'),
 ('Tarte aux pommes', 'dessert', 'Tarte aux pommes maison'),
 ('Tiramisu', 'dessert', 'Tiramisu traditionnel');
 
--- Association plats-allergènes
+-- Association plats-allergenes
 INSERT INTO plat_allergene (id_plat, id_allergene) VALUES 
 (1, 1), (1, 4), (2, 5), (3, 1), (3, 2), (5, 5), (6, 2), (9, 1), (9, 4), (9, 2);
 
 -- Insertion des menus
 INSERT INTO menu (titre, description, id_theme, id_regime, nb_personnes_min, prix_base, stock_disponible, conditions) VALUES 
-('Menu Festif de Noël', 'Un repas traditionnel pour célébrer Noël en famille', 1, 1, 6, 180.00, 10, 'Commande à passer au moins 7 jours avant la livraison. Conservation au réfrigérateur.'),
-('Menu Végétarien Raffiné', 'Des saveurs végétales pour un repas équilibré et gourmand', 3, 2, 4, 120.00, 15, 'Commande à passer au moins 5 jours avant la livraison.'),
-('Menu Traditionnel', 'Le meilleur de la cuisine française classique', 3, 1, 8, 250.00, 8, 'Commande à passer au moins 10 jours avant la livraison. Matériel de service disponible sur demande.');
+('Menu Festif de Noel', 'Un repas traditionnel pour celebrer Noel en famille', 1, 1, 6, 180.00, 10, 'Commande a passer au moins 7 jours avant la livraison. Conservation au refrigerateur.'),
+('Menu Vegetarien Raffine', 'Des saveurs vegetales pour un repas equilibre et gourmand', 3, 2, 4, 120.00, 15, 'Commande a passer au moins 5 jours avant la livraison.'),
+('Menu Traditionnel', 'Le meilleur de la cuisine francaise classique', 3, 1, 8, 250.00, 8, 'Commande a passer au moins 10 jours avant la livraison. Materiel de service disponible sur demande.');
 
 -- Association menu-plats
 INSERT INTO menu_plat (id_menu, id_plat) VALUES 
@@ -269,19 +269,19 @@ INSERT INTO menu_plat (id_menu, id_plat) VALUES
 
 -- Images des menus
 INSERT INTO image (id_menu, url_image, alt_text, ordre_affichage) VALUES 
-(1, '/uploads/menu-noel-1.jpg', 'Menu de Noël - Foie gras', 1),
-(1, '/uploads/menu-noel-2.jpg', 'Menu de Noël - Dinde aux marrons', 2),
-(2, '/uploads/menu-vegetarien-1.jpg', 'Menu Végétarien - Salade de chèvre', 1),
+(1, '/uploads/menu-noel-1.jpg', 'Menu de Noel - Foie gras', 1),
+(1, '/uploads/menu-noel-2.jpg', 'Menu de Noel - Dinde aux marrons', 2),
+(2, '/uploads/menu-vegetarien-1.jpg', 'Menu Vegetarien - Salade de chevre', 1),
 (3, '/uploads/menu-traditionnel-1.jpg', 'Menu Traditionnel - Saumon', 1);
 
 -- Commandes de test
 INSERT INTO commande (id_utilisateur, id_menu, nb_personnes, prix_menu, prix_livraison, prix_total, adresse_livraison, date_livraison, heure_livraison, statut) VALUES 
-(3, 1, 8, 216.00, 5.00, 221.00, '45 Avenue de la République, 33000 Bordeaux', '2025-12-24', '18:00:00', 'terminee'),
+(3, 1, 8, 216.00, 5.00, 221.00, '45 Avenue de la Republique, 33000 Bordeaux', '2025-12-24', '18:00:00', 'terminee'),
 (4, 2, 6, 144.00, 5.00, 149.00, '78 Cours Victor Hugo, 33000 Bordeaux', '2025-01-15', '19:00:00', 'accepte');
 
--- Avis validés
+-- Avis valides
 INSERT INTO avis (id_commande, id_utilisateur, note, commentaire, valide) VALUES 
-(1, 3, 5, 'Excellent repas de Noël ! Toute la famille a adoré. Merci à Julie et José pour leur professionnalisme.', TRUE);
+(1, 3, 5, 'Excellent repas de Noel ! Toute la famille a adore. Merci a Julie et Jose pour leur professionnalisme.', TRUE);
 
 -- =====================================================
 -- TRIGGERS

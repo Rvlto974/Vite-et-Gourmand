@@ -1,71 +1,49 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vite & Gourmand - Test Docker</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        .container {
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            max-width: 800px;
-            width: 100%;
-        }
-        h1 { color: #2E5090; margin-bottom: 20px; }
-        .success {
-            background: #d4edda;
-            border: 1px solid #c3e6cb;
-            color: #155724;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 20px 0;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        th {
-            background-color: #2E5090;
-            color: white;
-        }
-        .check { color: #28a745; font-weight: bold; }
-        .cross { color: #dc3545; font-weight: bold; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>🎉 Vite & Gourmand</h1>
-        <div class="success">
-            ✅ Docker fonctionne !
-        </div>
+<?php
+// Démarrer la session
+session_start();
 
-        <h2>Informations PHP</h2>
-        <p><strong>Version PHP :</strong> <?php echo phpversion(); ?></p>
-        <p><strong>Serveur :</strong> <?php echo $_SERVER['SERVER_SOFTWARE']; ?></p>
+// Autoloader simple
+spl_autoload_register(function ($class) {
+    $paths = [
+        __DIR__ . '/../app/config/',
+        __DIR__ . '/../app/models/',
+        __DIR__ . '/../app/controllers/',
+        __DIR__ . '/../app/helpers/'
+    ];
+    
+    foreach ($paths as $path) {
+        $file = $path . $class . '.php';
+        if (file_exists($file)) {
+            require_once $file;
+            return;
+        }
+    }
+});
 
-        <h2>Extensions PHP</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Extension</th>
-                    <th>Statut</th>
-                </tr>
-            </thea
+// Router simple
+$url = isset($_GET['url']) ? $_GET['url'] : '';
+$url = rtrim($url, '/');
+$url = filter_var($url, FILTER_SANITIZE_URL);
+$url = explode('/', $url);
+
+// Déterminer le controller et l'action
+$controllerName = !empty($url[0]) ? ucfirst($url[0]) . 'Controller' : 'HomeController';
+$action = isset($url[1]) ? $url[1] : 'index';
+$params = array_slice($url, 2);
+
+// Vérifier si le controller existe
+$controllerFile = __DIR__ . '/../app/controllers/' . $controllerName . '.php';
+
+if (file_exists($controllerFile)) {
+    require_once $controllerFile;
+    $controller = new $controllerName();
+    
+    if (method_exists($controller, $action)) {
+        call_user_func_array([$controller, $action], $params);
+    } else {
+        echo "Action '$action' non trouvée dans $controllerName";
+    }
+} else {
+    echo "Controller '$controllerName' non trouvé";
+}
+?>

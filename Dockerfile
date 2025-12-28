@@ -22,8 +22,9 @@ RUN a2enmod rewrite
 
 RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
 
-WORKDIR /var/www/html
-
+WORKDIR /var/www/html/public
+# Configurer le DocumentRoot pour pointer vers public
+RUN sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available/000-default.conf
 COPY ./config/php.ini /usr/local/etc/php/conf.d/custom.ini
 
 RUN chown -R www-data:www-data /var/www/html \
