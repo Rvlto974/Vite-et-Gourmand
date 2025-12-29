@@ -39,28 +39,49 @@ ob_start();
     </div>
 </div>
 
-<!-- Commandes par statut -->
+<!-- Graphiques -->
 <div class="row mb-4">
-    <div class="col-md-6">
+    <!-- Graphique CA par mois -->
+    <div class="col-md-8">
         <div class="card">
             <div class="card-header">
-                <h5>📊 Commandes par statut</h5>
+                <h5>📈 Chiffre d'affaires (12 derniers mois)</h5>
             </div>
             <div class="card-body">
-                <table class="table">
-                    <tbody>
-                        <?php foreach ($stats['commandes_par_statut'] as $stat): ?>
-                            <tr>
-                                <td><?= ucfirst(str_replace('_', ' ', $stat['statut'])) ?></td>
-                                <td class="text-end"><strong><?= $stat['nombre'] ?></strong></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+                <canvas id="caChart" height="80"></canvas>
             </div>
         </div>
     </div>
     
+    <!-- Graphique commandes par statut -->
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5>🥧 Commandes par statut</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="statutChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Top menus -->
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>🏆 Top 5 menus les plus commandés</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="topMenusChart" height="60"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Actions rapides et dernières commandes -->
+<div class="row mb-4">
     <div class="col-md-6">
         <div class="card">
             <div class="card-header">
@@ -74,10 +95,33 @@ ob_start();
                     <a href="/admin/users" class="btn btn-info">
                         👥 Gerer les utilisateurs
                     </a>
-                    <a href="/menu" class="btn btn-success">
-                        🍽️ Voir les menus
+                    <a href="/menu/adminList" class="btn btn-warning">
+                        🍽️ Gerer les menus
+                    </a>
+                    <a href="/avis/adminList" class="btn btn-success">
+                        ⭐ Moderer les avis
                     </a>
                 </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5>📊 Statistiques détaillées</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-sm">
+                    <tbody>
+                        <?php foreach ($stats['commandes_par_statut'] as $stat): ?>
+                            <tr>
+                                <td><?= ucfirst(str_replace('_', ' ', $stat['statut'])) ?></td>
+                                <td class="text-end"><strong><?= $stat['nombre'] ?></strong></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -140,6 +184,112 @@ ob_start();
         </div>
     </div>
 </div>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+// Préparer les données PHP pour JavaScript
+const caData = <?= json_encode($ca_par_mois) ?>;
+const topMenusData = <?= json_encode($top_menus) ?>;
+const statutData = <?= json_encode($stats['commandes_par_statut']) ?>;
+
+// Graphique CA par mois
+const caCtx = document.getElementById('caChart').getContext('2d');
+new Chart(caCtx, {
+    type: 'line',
+    data: {
+        labels: caData.map(item => {
+            const [year, month] = item.mois.split('-');
+            return new Date(year, month - 1).toLocaleDateString('fr-FR', { month: 'short', year: 'numeric' });
+        }),
+        datasets: [{
+            label: 'Chiffre d\'affaires (€)',
+            data: caData.map(item => parseFloat(item.ca)),
+            borderColor: 'rgb(75, 192, 192)',
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            tension: 0.4,
+            fill: true
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                display: true
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    callback: function(value) {
+                        return value + ' €';
+                    }
+                }
+            }
+        }
+    }
+});
+
+// Graphique commandes par statut (Doughnut)
+const statutCtx = document.getElementById('statutChart').getContext('2d');
+new Chart(statutCtx, {
+    type: 'doughnut',
+    data: {
+        labels: statutData.map(item => item.statut.replace('_', ' ')),
+        datasets: [{
+            data: statutData.map(item => item.nombre),
+            backgroundColor: [
+                'rgba(255, 206, 86, 0.8)',
+                'rgba(54, 162, 235, 0.8)',
+                'rgba(153, 102, 255, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(255, 99, 132, 0.8)'
+            ]
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'bottom'
+            }
+        }
+    }
+});
+
+// Graphique top menus (Bar)
+const topMenusCtx = document.getElementById('topMenusChart').getContext('2d');
+new Chart(topMenusCtx, {
+    type: 'bar',
+    data: {
+        labels: topMenusData.map(item => item.titre),
+        datasets: [{
+            label: 'Nombre de commandes',
+            data: topMenusData.map(item => parseInt(item.nb_commandes)),
+            backgroundColor: 'rgba(54, 162, 235, 0.8)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                display: false
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    stepSize: 1
+                }
+            }
+        }
+    }
+});
+</script>
 
 <?php 
 $content = ob_get_clean();

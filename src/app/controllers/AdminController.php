@@ -56,6 +56,29 @@ class AdminController {
         $stmt->execute();
         $dernieres_commandes = $stmt->fetchAll();
         
+        // CA par mois (12 derniers mois)
+        $query = "SELECT DATE_FORMAT(date_creation, '%Y-%m') as mois, 
+                         SUM(prix_total) as ca
+                  FROM commande
+                  WHERE statut != 'annulee'
+                  AND date_creation >= DATE_SUB(NOW(), INTERVAL 12 MONTH)
+                  GROUP BY DATE_FORMAT(date_creation, '%Y-%m')
+                  ORDER BY mois ASC";
+        $stmt = $conn->prepare($query);
+        $stmt->execute();
+        $ca_par_mois = $stmt->fetchAll();
+        
+        // Top 5 menus les plus commandés
+        $query = "SELECT m.titre, COUNT(c.id_commande) as nb_commandes
+                  FROM commande c
+                  INNER JOIN menu m ON c.id_menu = m.id_menu
+                  GROUP BY m.id_menu
+                  ORDER BY nb_commandes DESC
+                  LIMIT 5";
+        $stmt = $conn->prepare($query);
+        $stmt->execute();
+        $top_menus = $stmt->fetchAll();
+        
         require_once __DIR__ . '/../views/admin/dashboard.php';
     }
     
