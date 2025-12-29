@@ -12,7 +12,7 @@ ob_start();
         <h5 class="mb-0">➕ Ajouter un nouveau menu</h5>
     </div>
     <div class="card-body">
-        <form action="/menu/adminStore" method="POST">
+        <form action="/menu/adminStore" method="POST" enctype="multipart/form-data">
             <div class="row">
                 <!-- Titre -->
                 <div class="col-md-8 mb-3">
@@ -84,6 +84,13 @@ ob_start();
                 </div>
             </div>
             
+<!-- Image -->
+            <div class="mb-3">
+                <label for="image" class="form-label">Image du menu</label>
+                <input type="file" class="form-control" id="image" name="image" accept="image/jpeg,image/png,image/jpg,image/webp">
+                <small class="text-muted">Formats acceptés : JPG, PNG, WEBP (Max 5MB)</small>
+            </div>
+
             <!-- Conditions -->
             <div class="mb-3">
                 <label for="conditions" class="form-label">Conditions particulieres</label>

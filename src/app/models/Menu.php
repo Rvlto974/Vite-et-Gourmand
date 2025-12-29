@@ -52,16 +52,15 @@ class Menu {
     }
 
     // Récupérer les images d'un menu
-    public function getImages($menu_id) {
-        $query = "SELECT * FROM image 
-                  WHERE id_menu = :menu_id
-                  ORDER BY ordre_affichage";
-        
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':menu_id', $menu_id);
-        $stmt->execute();
-        return $stmt->fetchAll();
-    }
+        public function getImages($menu_id) {
+    $query = "SELECT * FROM image_menu
+                WHERE id_menu = :menu_id
+                ORDER BY date_ajout DESC";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(':menu_id', $menu_id);
+    $stmt->execute();
+    return $stmt->fetchAll();
+}
 
     // Filtrer par thème
     public function getByTheme($theme_id) {
@@ -107,5 +106,47 @@ class Menu {
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll();
+    }
+    // Ajouter une image à un menu
+public function addImage($menu_id, $chemin_fichier) {
+    $query = "INSERT INTO image_menu (id_menu, chemin_fichier) 
+                VALUES (:id_menu, :chemin_fichier)";
+    
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(':id_menu', $menu_id);
+    $stmt->bindParam(':chemin_fichier', $chemin_fichier);
+    
+    $result = $stmt->execute();
+    
+    // DEBUG
+    error_log("addImage appelé - menu_id: $menu_id, chemin: $chemin_fichier, result: " . ($result ? 'OK' : 'ERREUR'));
+    
+    return $result;
+}
+    
+    // Supprimer une image
+    public function deleteImage($image_id) {
+        // Récupérer le chemin du fichier avant de supprimer
+        $query = "SELECT chemin_fichier FROM image_menu WHERE id_image = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $image_id);
+        $stmt->execute();
+        $image = $stmt->fetch();
+        
+        if ($image) {
+            // Supprimer le fichier physique
+            $filepath = $_SERVER['DOCUMENT_ROOT'] . $image['chemin_fichier'];
+            if (file_exists($filepath)) {
+                unlink($filepath);
+            }
+            
+            // Supprimer l'entrée en BDD
+            $query = "DELETE FROM image_menu WHERE id_image = :id";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':id', $image_id);
+            return $stmt->execute();
+        }
+        
+        return false;
     }
 }

@@ -12,7 +12,7 @@ ob_start();
         <h5 class="mb-0">✏️ Modifier le menu</h5>
     </div>
     <div class="card-body">
-        <form action="/menu/adminUpdate" method="POST">
+        <form action="/menu/adminUpdate" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="id_menu" value="<?= $menu['id_menu'] ?>">
             
             <div class="row">
@@ -98,6 +98,36 @@ ob_start();
                 <label for="conditions" class="form-label">Conditions particulieres</label>
                 <textarea class="form-control" id="conditions" name="conditions" rows="3"><?= htmlspecialchars($menu['conditions'] ?? '') ?></textarea>
                 <small class="text-muted">Ex: Commande a passer 7 jours a l'avance</small>
+            </div>
+            
+            <!-- Images actuelles -->
+            <?php if (!empty($images)): ?>
+                <div class="mb-3">
+                    <label class="form-label">Images actuelles</label>
+                    <div class="row">
+                        <?php foreach ($images as $img): ?>
+                            <div class="col-md-3 mb-2">
+                                <div class="card">
+                                    <img src="<?= $img['chemin_fichier'] ?>" class="card-img-top" alt="Image menu">
+                                    <div class="card-body p-2">
+                                        <a href="/menu/adminDeleteImage/<?= $img['id_image'] ?>" 
+                                           class="btn btn-sm btn-danger w-100"
+                                           onclick="return confirm('Supprimer cette image ?')">
+                                            🗑️ Supprimer
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            <?php endif; ?>
+            
+            <!-- Ajouter une nouvelle image -->
+            <div class="mb-3">
+                <label for="image" class="form-label">Ajouter une image</label>
+                <input type="file" class="form-control" id="image" name="image" accept="image/jpeg,image/png,image/jpg,image/webp">
+                <small class="text-muted">Formats acceptés : JPG, PNG, WEBP (Max 5MB)</small>
             </div>
             
             <div class="d-grid gap-2">

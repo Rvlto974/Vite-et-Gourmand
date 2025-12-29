@@ -142,6 +142,46 @@ class MenuController {
         $stmt->bindParam(':actif', $actif);
         
         if ($stmt->execute()) {
+            $menu_id = $conn->lastInsertId();
+            
+            // Gérer l'upload d'image
+            error_log("=== DEBUT GESTION UPLOAD (CREATE) ===");
+            error_log("isset FILES image: " . (isset($_FILES['image']) ? 'OUI' : 'NON'));
+            
+            if (isset($_FILES['image'])) {
+                error_log("FILES image error: " . $_FILES['image']['error']);
+                error_log("UPLOAD_ERR_OK = " . UPLOAD_ERR_OK);
+                
+                if ($_FILES['image']['error'] === UPLOAD_ERR_OK) {
+                    error_log("=== IMAGE DETECTEE ===");
+                    $allowed_types = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp'];
+                    $file_type = $_FILES['image']['type'];
+                    error_log("Type fichier: " . $file_type);
+                    
+                    if (in_array($file_type, $allowed_types)) {
+                        error_log("=== TYPE VALIDE ===");
+                        $extension = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+                        $filename = 'menu_' . $menu_id . '_' . time() . '.' . $extension;
+                        $upload_path = $_SERVER['DOCUMENT_ROOT'] . '/uploads/menus/' . $filename;
+                        error_log("Upload path: " . $upload_path);
+                        
+                        if (move_uploaded_file($_FILES['image']['tmp_name'], $upload_path)) {
+                            error_log("=== FICHIER UPLOADE ===");
+                            $menuModel = new Menu($conn);
+                            error_log("=== APPEL addImage ===");
+                            $result = $menuModel->addImage($menu_id, '/uploads/menus/' . $filename);
+                            error_log("=== RESULTAT addImage: " . ($result ? 'OK' : 'ERREUR') . " ===");
+                        } else {
+                            error_log("ERREUR move_uploaded_file");
+                        }
+                    } else {
+                        error_log("Type fichier non valide: " . $file_type);
+                    }
+                } else {
+                    error_log("Erreur upload, code: " . $_FILES['image']['error']);
+                }
+            }
+            
             $_SESSION['success'] = 'Menu cree avec succes';
             header('Location: /menu/adminList');
         } else {
@@ -169,6 +209,7 @@ class MenuController {
         
         $themes = $menuModel->getAllThemes();
         $regimes = $menuModel->getAllRegimes();
+        $images = $menuModel->getImages($menu_id);
         
         require_once __DIR__ . '/../views/admin/menu-edit.php';
     }
@@ -181,6 +222,10 @@ class MenuController {
             header('Location: /menu/adminList');
             exit;
         }
+        
+        // DEBUG
+        error_log("=== DEBUG UPLOAD ===");
+        error_log("FILES: " . print_r($_FILES, true));
         
         $id_menu = $_POST['id_menu'] ?? null;
         $titre = trim($_POST['titre'] ?? '');
@@ -221,6 +266,44 @@ class MenuController {
         $stmt->bindParam(':id_menu', $id_menu);
         
         if ($stmt->execute()) {
+            // Gérer l'upload d'image
+            error_log("=== DEBUT GESTION UPLOAD (UPDATE) ===");
+            error_log("isset FILES image: " . (isset($_FILES['image']) ? 'OUI' : 'NON'));
+            
+            if (isset($_FILES['image'])) {
+                error_log("FILES image error: " . $_FILES['image']['error']);
+                error_log("UPLOAD_ERR_OK = " . UPLOAD_ERR_OK);
+                
+                if ($_FILES['image']['error'] === UPLOAD_ERR_OK) {
+                    error_log("=== IMAGE DETECTEE ===");
+                    $allowed_types = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp'];
+                    $file_type = $_FILES['image']['type'];
+                    error_log("Type fichier: " . $file_type);
+                    
+                    if (in_array($file_type, $allowed_types)) {
+                        error_log("=== TYPE VALIDE ===");
+                        $extension = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+                        $filename = 'menu_' . $id_menu . '_' . time() . '.' . $extension;
+                        $upload_path = $_SERVER['DOCUMENT_ROOT'] . '/uploads/menus/' . $filename;
+                        error_log("Upload path: " . $upload_path);
+                        
+                        if (move_uploaded_file($_FILES['image']['tmp_name'], $upload_path)) {
+                            error_log("=== FICHIER UPLOADE ===");
+                            $menuModel = new Menu($conn);
+                            error_log("=== APPEL addImage ===");
+                            $result = $menuModel->addImage($id_menu, '/uploads/menus/' . $filename);
+                            error_log("=== RESULTAT addImage: " . ($result ? 'OK' : 'ERREUR') . " ===");
+                        } else {
+                            error_log("ERREUR move_uploaded_file");
+                        }
+                    } else {
+                        error_log("Type fichier non valide: " . $file_type);
+                    }
+                } else {
+                    error_log("Erreur upload, code: " . $_FILES['image']['error']);
+                }
+            }
+            
             $_SESSION['success'] = 'Menu mis a jour avec succes';
         } else {
             $_SESSION['error'] = 'Erreur lors de la mise a jour';
@@ -262,6 +345,36 @@ class MenuController {
         }
         
         header('Location: /menu/adminList');
+        exit;
+    }
+    
+    // Supprimer une image
+    public function adminDeleteImage($image_id) {
+        AdminMiddleware::check();
+        
+        $db = new Database();
+        $conn = $db->getConnection();
+        $menuModel = new Menu($conn);
+        
+        // Récupérer l'id du menu avant de supprimer
+        $query = "SELECT id_menu FROM image_menu WHERE id_image = :id";
+        $stmt = $conn->prepare($query);
+        $stmt->bindParam(':id', $image_id);
+        $stmt->execute();
+        $result = $stmt->fetch();
+        $menu_id = $result['id_menu'] ?? null;
+        
+        if ($menuModel->deleteImage($image_id)) {
+            $_SESSION['success'] = 'Image supprimee avec succes';
+        } else {
+            $_SESSION['error'] = 'Erreur lors de la suppression de l image';
+        }
+        
+        if ($menu_id) {
+            header('Location: /menu/adminEdit/' . $menu_id);
+        } else {
+            header('Location: /menu/adminList');
+        }
         exit;
     }
 }
