@@ -5,7 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vite & Gourmand - Traiteur Événementiel</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/css/style.css">
+    
+    <!-- Toast JS -->
+    <script src="/js/toast.js"></script>
+    <script>
+        // Messages PHP vers JavaScript
+        <?php if (isset($_SESSION['success']) || isset($_SESSION['error'])): ?>
+        var toastMessages = [
+            <?php if (isset($_SESSION['success'])): ?>
+            { message: '<?= addslashes($_SESSION['success']) ?>', type: 'success' },
+            <?php unset($_SESSION['success']); endif; ?>
+            <?php if (isset($_SESSION['error'])): ?>
+            { message: '<?= addslashes($_SESSION['error']) ?>', type: 'error' },
+            <?php unset($_SESSION['error']); endif; ?>
+        ];
+        <?php endif; ?>
+    </script>
+    <!-- Toast JS -->
+    <script src="/js/toast.js"></script>
+    <script>
+        <?php if (isset($_SESSION['success']) || isset($_SESSION['error'])): ?>
+        var toastMessages = [];
+        <?php if (isset($_SESSION['success'])): ?>
+        toastMessages.push({ message: '<?= addslashes($_SESSION['success']) ?>', type: 'success' });
+        <?php unset($_SESSION['success']); endif; ?>
+        <?php if (isset($_SESSION['error'])): ?>
+        toastMessages.push({ message: '<?= addslashes($_SESSION['error']) ?>', type: 'error' });
+        <?php unset($_SESSION['error']); endif; ?>
+        <?php endif; ?>
+    </script>
+</head>
+</head>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
