@@ -19,6 +19,17 @@
         <p class="lead text-muted">Les préférés de nos clients</p>
     </div>
     
+    <?php 
+    // DEBUG
+    echo "<pre>";
+    echo "Nombre de menus dans le tableau: " . count($top_menus) . "\n";
+    foreach ($top_menus as $index => $menu) {
+        echo "Menu[$index]: ID={$menu['id_menu']}, Titre={$menu['titre']}\n";
+    }
+    echo "</pre>";
+    // FIN DEBUG
+    ?>
+    
     <div class="row">
         <?php if (!empty($top_menus)): ?>
             <?php foreach ($top_menus as $menu): ?>
