@@ -1,5 +1,4 @@
 /* Style personnalisé pour Vite & Gourmand */
-
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     min-height: 100vh;
@@ -37,4 +36,38 @@ footer {
 .navbar .dropdown-menu {
     left: 0 !important;
     right: auto !important;
+}
+
+/* Amélioration du carrousel */
+.carousel-control-prev,
+.carousel-control-next {
+    width: 10%;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 50%;
+    padding: 20px;
+    width: 50px;
+    height: 50px;
+}
+
+.carousel-control-prev-icon:hover,
+.carousel-control-next-icon:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+    transform: scale(1.1);
+    transition: all 0.3s ease;
+}
+
+.carousel-indicators button {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.7);
+}
+
+.carousel-indicators button.active {
+    background-color: #fff;
+    transform: scale(1.2);
 }

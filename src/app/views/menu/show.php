@@ -15,6 +15,33 @@
         <div class="col-md-8">
             <div class="card shadow-lg">
                 <div class="card-body">
+
+<!-- Carrousel d'images -->
+                    <?php if (!empty($images)): ?>
+                        <div id="menuCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
+                            <div class="carousel-indicators">
+                                <?php foreach ($images as $index => $img): ?>
+                                    <button type="button" data-bs-target="#menuCarousel" data-bs-slide-to="<?= $index ?>" 
+                                            <?= $index === 0 ? 'class="active" aria-current="true"' : '' ?>></button>
+                                <?php endforeach; ?>
+                            </div>
+                            <div class="carousel-inner">
+                                <?php foreach ($images as $index => $img): ?>
+                                    <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
+                                        <img src="<?= $img['chemin_fichier'] ?>" class="d-block w-100" alt="<?= htmlspecialchars($menu['titre']) ?>" 
+                                            style="max-height: 400px; object-fit: cover;">
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#menuCarousel" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon"></span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#menuCarousel" data-bs-slide="next">
+                                <span class="carousel-control-next-icon"></span>
+                            </button>
+                        </div>
+                    <?php endif; ?>
+
                     <!-- Titre et badges -->
                     <div class="d-flex justify-content-between align-items-start mb-3">
                         <h1 class="display-5"><?= htmlspecialchars($menu['titre']) ?></h1>
@@ -241,5 +268,62 @@
         </div>
     </div>
 </div>
+<style>
+/* Carrousel amélioré */
+.carousel-control-prev,
+.carousel-control-next {
+    width: 8% !important;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+    opacity: 1;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: rgba(255, 255, 255, 0.3) !important;
+    backdrop-filter: blur(5px);
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    border-radius: 50% !important;
+    padding: 15px !important;
+    width: 45px !important;
+    height: 45px !important;
+    transition: all 0.3s ease;
+}
+
+.carousel-control-prev-icon:hover,
+.carousel-control-next-icon:hover {
+    background-color: rgba(255, 255, 255, 0.5) !important;
+    transform: scale(1.15) !important;
+    border-color: rgba(255, 255, 255, 1);
+}
+
+.carousel-indicators {
+    bottom: -40px !important;
+}
+
+.carousel-indicators button {
+    width: 12px !important;
+    height: 12px !important;
+    border-radius: 50% !important;
+    background-color: rgba(108, 117, 125, 0.5) !important;
+    border: 2px solid rgba(108, 117, 125, 0.3);
+    margin: 0 5px !important;
+    transition: all 0.3s ease;
+}
+
+.carousel-indicators button.active {
+    background-color: #0d6efd !important;
+    border-color: #0d6efd;
+    transform: scale(1.2) !important;
+}
+
+.carousel {
+    margin-bottom: 50px;
+}
+</style>
 
 <?php require_once __DIR__ . '/../layouts/footer.php'; ?>

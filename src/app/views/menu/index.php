@@ -59,9 +59,15 @@
     <div class="row">
         <?php if (!empty($menus)): ?>
             <?php foreach ($menus as $menu): ?>
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100 shadow-sm">
-                        <div class="card-body">
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 shadow">
+            <?php 
+            // Récupérer la première image du menu
+            $images = $menuModel->getImages($menu['id_menu']);
+            $image_url = !empty($images) ? $images[0]['chemin_fichier'] : '/uploads/menus/default-menu.jpg';
+            ?>
+            <img src="<?= $image_url ?>" class="card-img-top" alt="<?= htmlspecialchars($menu['titre']) ?>" style="height: 250px; object-fit: cover;">
+            <div class="card-body">
                             <div class="d-flex justify-content-between align-items-start mb-2">
                                 <h5 class="card-title"><?= htmlspecialchars($menu['titre']) ?></h5>
                                 <?php if ($menu['stock_disponible'] > 0): ?>
