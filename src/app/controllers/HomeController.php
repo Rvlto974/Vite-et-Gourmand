@@ -38,13 +38,13 @@ class HomeController {
         
         // Derniers avis validés
         $query = "SELECT a.*, u.prenom, m.titre as menu_titre
-                  FROM avis a
-                  INNER JOIN utilisateur u ON a.id_utilisateur = u.id_utilisateur
-                  INNER JOIN commande c ON a.id_commande = c.id_commande
-                  INNER JOIN menu m ON c.id_menu = m.id_menu
-                  WHERE a.valide = 1
-                  ORDER BY a.date_creation DESC
-                  LIMIT 3";
+                FROM avis a
+                INNER JOIN utilisateur u ON a.id_utilisateur = u.id_utilisateur
+                INNER JOIN commande c ON a.id_commande = c.id_commande
+                INNER JOIN menu m ON c.id_menu = m.id_menu
+                WHERE a.valide = 1
+                ORDER BY a.date_creation DESC
+                LIMIT 3";
         $stmt = $conn->prepare($query);
         $stmt->execute();
         $temoignages = $stmt->fetchAll(PDO::FETCH_ASSOC);

@@ -20,14 +20,7 @@
     </div>
     
     <?php 
-    // DEBUG
-    echo "<pre>";
-    echo "Nombre de menus dans le tableau: " . count($top_menus) . "\n";
-    foreach ($top_menus as $index => $menu) {
-        echo "Menu[$index]: ID={$menu['id_menu']}, Titre={$menu['titre']}\n";
-    }
-    echo "</pre>";
-    // FIN DEBUG
+
     ?>
     
     <div class="row">
@@ -37,7 +30,7 @@
                     <div class="card h-100 shadow-lg border-0">
                         <div class="position-relative">
                             <img src="<?= $menu['image'] ?>" class="card-img-top" alt="<?= htmlspecialchars($menu['titre']) ?>" 
-                                 style="height: 250px; object-fit: cover;">
+                                    style="height: 250px; object-fit: cover;">
                             <span class="position-absolute top-0 end-0 m-3 badge bg-danger fs-6">
                                 ⭐ Populaire
                             </span>
@@ -88,7 +81,7 @@
                 <div class="card border-0 shadow-sm h-100">
                     <div class="card-body">
                         <div class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center mb-3" 
-                             style="width: 80px; height: 80px; font-size: 2rem;">
+                                style="width: 80px; height: 80px; font-size: 2rem;">
                             1️⃣
                         </div>
                         <h5 class="fw-bold">Choisissez votre menu</h5>
@@ -101,7 +94,7 @@
                 <div class="card border-0 shadow-sm h-100">
                     <div class="card-body">
                         <div class="rounded-circle bg-success text-white d-inline-flex align-items-center justify-content-center mb-3" 
-                             style="width: 80px; height: 80px; font-size: 2rem;">
+                                style="width: 80px; height: 80px; font-size: 2rem;">
                             2️⃣
                         </div>
                         <h5 class="fw-bold">Passez commande</h5>
@@ -114,7 +107,7 @@
                 <div class="card border-0 shadow-sm h-100">
                     <div class="card-body">
                         <div class="rounded-circle bg-warning text-white d-inline-flex align-items-center justify-content-center mb-3" 
-                             style="width: 80px; height: 80px; font-size: 2rem;">
+                                style="width: 80px; height: 80px; font-size: 2rem;">
                             3️⃣
                         </div>
                         <h5 class="fw-bold">Nous préparons</h5>
@@ -127,7 +120,7 @@
                 <div class="card border-0 shadow-sm h-100">
                     <div class="card-body">
                         <div class="rounded-circle bg-danger text-white d-inline-flex align-items-center justify-content-center mb-3" 
-                             style="width: 80px; height: 80px; font-size: 2rem;">
+                                style="width: 80px; height: 80px; font-size: 2rem;">
                             4️⃣
                         </div>
                         <h5 class="fw-bold">Livraison</h5>
