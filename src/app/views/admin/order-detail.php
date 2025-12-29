@@ -1,7 +1,4 @@
-<?php 
-$page_title = 'Commande #' . $order['id_commande'];
-ob_start(); 
-?>
+<?php require_once __DIR__ . '/../layouts/header.php'; ?>
 
 <div class="mb-3">
     <a href="/admin/orders" class="btn btn-outline-secondary">← Retour aux commandes</a>
@@ -149,3 +146,27 @@ ob_start();
                     <div class="mb-3">
                         <label for="statut" class="form-label">Changer le statut :</label>
                         <select class="form-select" id="statut" name="statut" required>
+                            <option value="en_attente" <?= $order['statut'] === 'en_attente' ? 'selected' : '' ?>>En attente</option>
+                            <option value="accepte" <?= $order['statut'] === 'accepte' ? 'selected' : '' ?>>Acceptée</option>
+                            <option value="en_preparation" <?= $order['statut'] === 'en_preparation' ? 'selected' : '' ?>>En préparation</option>
+                            <option value="terminee" <?= $order['statut'] === 'terminee' ? 'selected' : '' ?>>Terminée</option>
+                            <option value="annulee" <?= $order['statut'] === 'annulee' ? 'selected' : '' ?>>Annulée</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="bi bi-check-circle"></i> Mettre à jour le statut
+                    </button>
+                </form>
+
+                <hr>
+
+                <a href="/admin/orders" class="btn btn-outline-secondary w-100">
+                    Retour à la liste
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?php require_once __DIR__ . '/../layouts/footer.php'; ?>
