@@ -54,5 +54,7 @@ if (file_exists($controllerFile)) {
         echo "Action '$action' non trouvée dans $controllerName";
     }
 } else {
-    echo "Controller '$controllerName' non trouvé";
+    require_once __DIR__ . '/../app/controllers/ErrorController.php';
+    $errorController = new ErrorController();
+    $errorController->notFound();
 }
