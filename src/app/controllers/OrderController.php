@@ -135,13 +135,36 @@ class OrderController {
             $menu['nb_personnes_min']
         );
 
+        // Gérer le code promo
+        $code_promo = trim($_POST['code_promo'] ?? '');
+        $promo_data = null;
+        $montant_reduction = 0;
+
+        if (!empty($code_promo)) {
+            require_once __DIR__ . '/../models/Promo.php';
+            $promoModel = new Promo($conn);
+            
+            $promo_data = $promoModel->validateCode($code_promo, $prix['prix_total']);
+            
+            if ($promo_data) {
+                $montant_reduction = $promoModel->calculateDiscount($promo_data, $prix['prix_total']);
+                $prix['prix_total'] -= $montant_reduction;
+            } else {
+                $_SESSION['error'] = 'Code promo invalide ou expire';
+                header('Location: /order/create/' . $menu_id);
+                exit;
+            }
+        }
+
         // Préparer les données
         $orderData = [
             'id_utilisateur' => $_SESSION['user_id'],
             'id_menu' => $menu_id,
+            'id_promo' => $promo_data ? $promo_data['id_promo'] : null,
             'nb_personnes' => $nb_personnes,
             'prix_menu' => $prix['prix_menu'],
             'prix_livraison' => $prix['prix_livraison'],
+            'montant_reduction' => $montant_reduction,
             'prix_total' => $prix['prix_total'],
             'adresse_livraison' => $adresse_livraison,
             'date_livraison' => $date_livraison,
@@ -152,6 +175,11 @@ class OrderController {
         $order_id = $orderModel->create($orderData);
 
         if ($order_id) {
+            // Incrémenter l'utilisation du code promo
+            if ($promo_data) {
+                $promoModel->incrementUsage($promo_data['id_promo']);
+            }
+            
             // Envoyer email de confirmation
             require_once __DIR__ . '/../helpers/Email.php';
             require_once __DIR__ . '/../helpers/EmailTemplates.php';
@@ -175,7 +203,11 @@ class OrderController {
                 $email->getTemplate($content)
             );
             
-            $_SESSION['success'] = 'Commande enregistree avec succes ! Un email de confirmation vous a ete envoye. Numero : ' . $order_id;
+            $success_msg = 'Commande enregistree avec succes ! Un email de confirmation vous a ete envoye. Numero : ' . $order_id;
+            if ($montant_reduction > 0) {
+                $success_msg .= ' - Reduction de ' . number_format($montant_reduction, 2) . ' € appliquee !';
+            }
+            $_SESSION['success'] = $success_msg;
             header('Location: /order/confirmation/' . $order_id);
             exit;
         } else {

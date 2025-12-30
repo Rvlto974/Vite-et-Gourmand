@@ -54,22 +54,33 @@
                         <div class="mb-3">
                             <label for="adresse_livraison" class="form-label">Adresse de livraison *</label>
                             <textarea class="form-control" 
-                                      id="adresse_livraison" 
-                                      name="adresse_livraison" 
-                                      rows="3" 
-                                      required><?= htmlspecialchars($user['adresse_postale'] ?? '') ?></textarea>
+                                    id="adresse_livraison" 
+                                    name="adresse_livraison" 
+                                    rows="3" 
+                                    required><?= htmlspecialchars($user['adresse_postale'] ?? '') ?></textarea>
                             <small class="text-muted">Vous pouvez modifier l'adresse si necessaire</small>
+                        </div>
+                        
+<!-- Code promo -->
+                        <div class="mb-3">
+                            <label for="code_promo" class="form-label">Code promo (optionnel)</label>
+                            <input type="text" 
+                                    class="form-control" 
+                                    id="code_promo" 
+                                    name="code_promo" 
+                                    placeholder="Entrez votre code promo">
+                            <small class="text-muted">Si vous avez un code promo, entrez-le ici pour bénéficier d'une réduction</small>
                         </div>
                         
                         <!-- Date de livraison -->
                         <div class="mb-3">
                             <label for="date_livraison" class="form-label">Date de livraison *</label>
                             <input type="date" 
-                                   class="form-control" 
-                                   id="date_livraison" 
-                                   name="date_livraison" 
-                                   min="<?= date('Y-m-d', strtotime('+7 days')) ?>"
-                                   required>
+                                    class="form-control" 
+                                    id="date_livraison" 
+                                    name="date_livraison" 
+                                    min="<?= date('Y-m-d', strtotime('+7 days')) ?>"
+                                    required>
                             <small class="text-muted">Commande a passer au moins 7 jours avant la livraison</small>
                         </div>
                         
@@ -77,12 +88,12 @@
                         <div class="mb-3">
                             <label for="heure_livraison" class="form-label">Heure de livraison *</label>
                             <input type="time" 
-                                   class="form-control" 
-                                   id="heure_livraison" 
-                                   name="heure_livraison" 
-                                   min="08:00"
-                                   max="20:00"
-                                   required>
+                                    class="form-control" 
+                                    id="heure_livraison" 
+                                    name="heure_livraison" 
+                                    min="08:00"
+                                    max="20:00"
+                                    required>
                             <small class="text-muted">Entre 8h00 et 20h00</small>
                         </div>
                         
