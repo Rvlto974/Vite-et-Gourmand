@@ -39,6 +39,13 @@ class AuthController {
                 $_SESSION['user_email'] = $user->email;
                 $_SESSION['user_role'] = $user->role;
                 $_SESSION['success'] = 'Connexion reussie ! Bienvenue ' . $user->prenom;
+
+                $_SESSION['success'] = 'Connexion reussie ! Bienvenue ' . $user->prenom;
+                
+                // Logger la connexion
+                require_once __DIR__ . '/../models/Analytics.php';
+                $analytics = new Analytics();
+                $analytics->logAction('login', ['user_id' => $_SESSION['user_id'], 'role' => $_SESSION['user_role']]);
                 
                 header('Location: /');
                 exit;
@@ -123,9 +130,13 @@ class AuthController {
             }
         }
     }
-    
-    // Déconnexion
+// Déconnexion
     public function logout() {
+        // Logger la déconnexion
+        require_once __DIR__ . '/../models/Analytics.php';
+        $analytics = new Analytics();
+        $analytics->logAction('logout', ['user_id' => $_SESSION['user_id']]);
+        
         session_destroy();
         header('Location: /');
         exit;

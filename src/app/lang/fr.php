@@ -27,6 +27,15 @@ return [
     'home_ready_subtitle' => 'Découvrez nos menus et passez commande en quelques clics',
     'home_view_menus' => 'Voir les menus',
     'home_contact_us' => 'Nous contacter',
+    'home_popular_badge' => 'Populaire',
+    'home_step1_title' => 'Choisissez votre menu',
+    'home_step1_desc' => 'Parcourez notre catalogue et sélectionnez le menu parfait pour votre événement',
+    'home_step2_title' => 'Passez commande',
+    'home_step2_desc' => 'Indiquez le nombre de personnes, la date et validez votre commande en ligne',
+    'home_step3_title' => 'Nous préparons',
+    'home_step3_desc' => 'Nos chefs préparent votre menu avec des produits frais et de qualité',
+    'home_step4_title' => 'Livraison',
+    'home_step4_desc' => 'Nous livrons à l\'heure prévue avec le matériel de service inclus',
     
     // Menus
     'menus_title' => 'Nos menus',

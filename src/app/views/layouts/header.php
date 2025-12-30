@@ -5,22 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vite & Gourmand - Traiteur Événementiel</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <!-- Toast JS -->
-    <script src="/js/toast.js"></script>
-    <script>
-        // Messages PHP vers JavaScript
-        <?php if (isset($_SESSION['success']) || isset($_SESSION['error'])): ?>
-        var toastMessages = [
-            <?php if (isset($_SESSION['success'])): ?>
-            { message: '<?= addslashes($_SESSION['success']) ?>', type: 'success' },
-            <?php unset($_SESSION['success']); endif; ?>
-            <?php if (isset($_SESSION['error'])): ?>
-            { message: '<?= addslashes($_SESSION['error']) ?>', type: 'error' },
-            <?php unset($_SESSION['error']); endif; ?>
-        ];
-        <?php endif; ?>
-    </script>
+
     <!-- Toast JS -->
     <script src="/js/toast.js"></script>
     <script>
@@ -35,8 +20,6 @@
         <?php endif; ?>
     </script>
 </head>
-</head>
-</head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
@@ -47,7 +30,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
 
-<!-- Sélecteur de langue -->
+                    <!-- Sélecteur de langue -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="langDropdown" role="button" data-bs-toggle="dropdown">
                             <?php if (Language::getCurrentLanguage() === 'fr'): ?>
@@ -66,7 +49,7 @@
                     <li class="nav-item"><a class="nav-link" href="/menu">Menus</a></li>
                     <li class="nav-item"><a class="nav-link" href="/home/about">A propos</a></li>
                     <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
-                    
+
                     <?php if (isset($_SESSION['user_id'])): ?>
                         <!-- Menu utilisateur connecte -->
                         <li class="nav-item dropdown">
@@ -78,6 +61,7 @@
                                     <li><a class="dropdown-item text-warning fw-bold" href="/admin">
                                         🔧 Administration
                                     </a></li>
+                                    <li><a class="dropdown-item" href="/analytics/adminDashboard">📊 Analytics</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                 <?php endif; ?>
                                 <li><a class="dropdown-item" href="/user/dashboard">Mon espace</a></li>
@@ -91,7 +75,6 @@
                         <li class="nav-item"><a class="nav-link" href="/auth/login">Connexion</a></li>
                         <li class="nav-item"><a class="nav-link btn btn-success text-white ms-2" href="/auth/register">S'inscrire</a></li>
                     <?php endif; ?>
-                </ul>
                 </ul>
             </div>
         </div>

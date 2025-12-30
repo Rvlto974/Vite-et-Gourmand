@@ -6,6 +6,10 @@ session_start();
 require_once __DIR__ . '/../app/helpers/Language.php';
 Language::init();
 
+// Tracking analytics
+require_once __DIR__ . '/../app/middleware/AnalyticsMiddleware.php';
+AnalyticsMiddleware::track();
+
 // Autoloader simple
 spl_autoload_register(function ($class) {
     $paths = [
