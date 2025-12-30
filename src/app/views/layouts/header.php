@@ -65,6 +65,9 @@
                                     <li><hr class="dropdown-divider"></li>
                                 <?php endif; ?>
                                 <li><a class="dropdown-item" href="/user/dashboard">Mon espace</a></li>
+                                <li><a class="dropdown-item" href="/favori/index">⭐ Mes favoris</a></li>
+                                <li><a class="dropdown-item" href="/user/orders">Mes commandes</a></li>
+                                <li><a class="dropdown-item" href="/user/dashboard">Mon espace</a></li>
                                 <li><a class="dropdown-item" href="/user/orders">Mes commandes</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item text-danger" href="/auth/logout">Deconnexion</a></li>
