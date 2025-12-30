@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vite & Gourmand - Traiteur Événementiel</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/dark-mode.css" rel="stylesheet">
+    
 
     <!-- Toast JS -->
     <script src="/js/toast.js"></script>
@@ -29,6 +32,19 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
+                    <ul class="navbar-nav ms-auto">
+
+
+                    
+                    <!-- Toggle Dark Mode -->
+                    <li class="nav-item">
+                        <button class="theme-toggle nav-link" id="themeToggle" title="Changer de thème">
+                            <span id="themeIcon">🌙</span>
+                        </button>
+                    </li>
+
+                    <!-- Sélecteur de langue -->
+                    <li class="nav-item dropdown">
 
                     <!-- Sélecteur de langue -->
                     <li class="nav-item dropdown">
