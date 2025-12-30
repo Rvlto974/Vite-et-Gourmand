@@ -174,6 +174,37 @@ class OrderController {
         // Créer la commande
         $order_id = $orderModel->create($orderData);
 
+        // Ajouter les points de fidélité
+            require_once __DIR__ . '/../models/Fidelite.php';
+            $fideliteModel = new Fidelite($conn);
+            $points = Fidelite::calculatePoints($prix['prix_total']);
+            $fideliteModel->addPoints(
+                $_SESSION['user_id'], 
+                $points, 
+                'Commande #' . $order_id, 
+                $order_id
+            );
+            
+            // Notifier tous les admins de la nouvelle commande
+            require_once __DIR__ . '/../models/Notification.php';
+            $notifModel = new Notification($conn);
+            
+            $adminQuery = "SELECT id_utilisateur FROM utilisateur WHERE role = 'admin'";
+            $adminStmt = $conn->prepare($adminQuery);
+            $adminStmt->execute();
+            $admins = $adminStmt->fetchAll();
+            
+            foreach ($admins as $admin) {
+                $notifModel->create([
+                    'id_utilisateur' => $admin['id_utilisateur'],
+                    'type' => 'nouvelle_commande',
+                    'titre' => '🛒 Nouvelle commande',
+                    'message' => 'Commande #' . $order_id . ' de ' . $_SESSION['user_prenom'] . ' - ' . number_format($prix['prix_total'], 2) . ' €',
+                    'id_reference' => $order_id,
+                    'url' => '/admin/orderDetail/' . $order_id
+                ]);
+            }
+
         if ($order_id) {
             // Incrémenter l'utilisation du code promo
             if ($promo_data) {

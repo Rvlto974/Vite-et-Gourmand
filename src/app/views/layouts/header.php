@@ -30,7 +30,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    
+
                     <!-- Toggle Dark Mode -->
                     <li class="nav-item">
                         <button class="theme-toggle nav-link" id="themeToggle" title="Changer de thème">

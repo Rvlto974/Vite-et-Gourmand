@@ -47,34 +47,34 @@ class AdminController {
 
         // Dernières commandes
         $query = "SELECT c.*, m.titre as menu_titre, u.nom, u.prenom, u.email
-                  FROM commande c
-                  INNER JOIN menu m ON c.id_menu = m.id_menu
-                  INNER JOIN utilisateur u ON c.id_utilisateur = u.id_utilisateur
-                  ORDER BY c.date_creation DESC
-                  LIMIT 10";
+                    FROM commande c
+                    INNER JOIN menu m ON c.id_menu = m.id_menu
+                    INNER JOIN utilisateur u ON c.id_utilisateur = u.id_utilisateur
+                    ORDER BY c.date_creation DESC
+                    LIMIT 10";
         $stmt = $conn->prepare($query);
         $stmt->execute();
         $dernieres_commandes = $stmt->fetchAll();
 
         // CA par mois (12 derniers mois)
         $query = "SELECT DATE_FORMAT(date_creation, '%Y-%m') as mois,
-                         SUM(prix_total) as ca
-                  FROM commande
-                  WHERE statut != 'annulee'
-                  AND date_creation >= DATE_SUB(NOW(), INTERVAL 12 MONTH)
-                  GROUP BY DATE_FORMAT(date_creation, '%Y-%m')
-                  ORDER BY mois ASC";
+                        SUM(prix_total) as ca
+                    FROM commande
+                    WHERE statut != 'annulee'
+                    AND date_creation >= DATE_SUB(NOW(), INTERVAL 12 MONTH)
+                    GROUP BY DATE_FORMAT(date_creation, '%Y-%m')
+                    ORDER BY mois ASC";
         $stmt = $conn->prepare($query);
         $stmt->execute();
         $ca_par_mois = $stmt->fetchAll();
 
         // Top 5 menus les plus commandés
         $query = "SELECT m.titre, COUNT(c.id_commande) as nb_commandes
-                  FROM commande c
-                  INNER JOIN menu m ON c.id_menu = m.id_menu
-                  GROUP BY m.id_menu
-                  ORDER BY nb_commandes DESC
-                  LIMIT 5";
+                    FROM commande c
+                    INNER JOIN menu m ON c.id_menu = m.id_menu
+                    GROUP BY m.id_menu
+                    ORDER BY nb_commandes DESC
+                    LIMIT 5";
         $stmt = $conn->prepare($query);
         $stmt->execute();
         $top_menus = $stmt->fetchAll();
@@ -166,6 +166,34 @@ class AdminController {
         header('Location: /admin/orderDetail/' . $order_id);
         exit;
     }
+$email->send(
+                    $user['email'],
+                    'Mise à jour de votre commande - Vite & Gourmand',
+                    $email->getTemplate($content)
+                );
+            }
+            
+            // Créer une notification pour le client
+            require_once __DIR__ . '/../models/Notification.php';
+            $notifModel = new Notification($conn);
+            
+            $status_labels = [
+                'en_attente' => 'En attente',
+                'accepte' => 'Acceptée',
+                'en_preparation' => 'En préparation',
+                'terminee' => 'Terminée',
+                'annulee' => 'Annulée'
+            ];
+            
+            $notifModel->create([
+                'id_utilisateur' => $order['id_utilisateur'],
+                'type' => 'changement_statut',
+                'titre' => '📦 Commande #' . $order_id . ' : ' . $status_labels[$new_status],
+                'message' => 'Votre commande a été mise à jour : ' . $status_labels[$new_status],
+                'id_reference' => $order_id,
+                'url' => '/order/confirmation/' . $order_id
+            ]);
+
 
     // Liste des utilisateurs
     public function users() {
