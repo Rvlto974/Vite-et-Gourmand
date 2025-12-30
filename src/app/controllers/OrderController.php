@@ -180,6 +180,24 @@ class OrderController {
                 $promoModel->incrementUsage($promo_data['id_promo']);
             }
             
+            // Incrémenter l'utilisation du code promo
+            if ($promo_data) {
+                $promoModel->incrementUsage($promo_data['id_promo']);
+            }
+            
+            // Ajouter les points de fidélité
+            require_once __DIR__ . '/../models/Fidelite.php';
+            $fideliteModel = new Fidelite($conn);
+            $points = Fidelite::calculatePoints($prix['prix_total']);
+            $fideliteModel->addPoints(
+                $_SESSION['user_id'], 
+                $points, 
+                'Commande #' . $order_id, 
+                $order_id
+            );
+            
+            // Envoyer email de confirmation
+            
             // Envoyer email de confirmation
             require_once __DIR__ . '/../helpers/Email.php';
             require_once __DIR__ . '/../helpers/EmailTemplates.php';
