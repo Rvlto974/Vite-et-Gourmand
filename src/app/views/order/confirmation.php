@@ -83,6 +83,10 @@
                         </ol>
                     </div>
                     
+                    <a href="/order/downloadPdf/<?= $order['id_commande'] ?>" class="btn btn-danger btn-lg">
+                            📄 Télécharger la facture PDF
+                        </a>
+
                     <!-- Boutons -->
                     <div class="d-grid gap-2">
                         <a href="/menu" class="btn btn-primary btn-lg">

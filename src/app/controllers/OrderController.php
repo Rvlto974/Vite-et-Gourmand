@@ -238,4 +238,47 @@ class OrderController {
 
         require_once __DIR__ . '/../views/order/confirmation.php';
     }
+    // Télécharger la facture PDF
+    public function downloadPdf($order_id) {
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: /auth/login');
+            exit;
+        }
+
+        $db = new Database();
+        $conn = $db->getConnection();
+        $orderModel = new Order($conn);
+        $order = $orderModel->getById($order_id);
+
+        // Vérifier que la commande appartient à l'utilisateur OU que c'est un admin
+        $is_admin = isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin';
+        
+        if (!$order || (!$is_admin && $order['id_utilisateur'] != $_SESSION['user_id'])) {
+            $_SESSION['error'] = 'Commande introuvable';
+            header('Location: /menu');
+            exit;
+        }
+
+        // Récupérer le menu
+        $menuModel = new Menu($conn);
+        $menu = $menuModel->getById($order['id_menu']);
+
+        // Récupérer l'utilisateur
+        $userQuery = "SELECT * FROM utilisateur WHERE id_utilisateur = :id";
+        $stmt = $conn->prepare($userQuery);
+        $stmt->bindParam(':id', $order['id_utilisateur']);
+        $stmt->execute();
+        $user = $stmt->fetch();
+
+        // Générer le PDF
+        require_once __DIR__ . '/../helpers/PdfGenerator.php';
+        $pdf_content = PdfGenerator::generateInvoice($order, $menu, $user);
+
+        // Envoyer le PDF au navigateur
+        header('Content-Type: application/pdf');
+        header('Content-Disposition: attachment; filename="facture_' . $order_id . '.pdf"');
+        header('Content-Length: ' . strlen($pdf_content));
+        echo $pdf_content;
+        exit;
+    }
 }

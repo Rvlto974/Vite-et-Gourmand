@@ -156,6 +156,9 @@
                                                 <a href="/user/orderDetail/<?= $order['id_commande'] ?>" class="btn btn-sm btn-outline-primary">
                                                     Voir
                                                 </a>
+                                                <a href="/order/downloadPdf/<?= $order['id_commande'] ?>" class="btn btn-sm btn-danger">
+                                                    📄 PDF
+                                                </a>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
