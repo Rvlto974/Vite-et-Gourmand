@@ -1,0 +1,77 @@
+<?php
+
+return [
+    // Navigation
+    'nav_home' => 'Home',
+    'nav_menus' => 'Our Menus',
+    'nav_about' => 'About',
+    'nav_contact' => 'Contact',
+    'nav_login' => 'Login',
+    'nav_register' => 'Register',
+    'nav_logout' => 'Logout',
+    'nav_dashboard' => 'My Account',
+    'nav_admin' => 'Administration',
+    
+    // Page d'accueil
+    'home_title' => 'Welcome to Vite & Gourmand',
+    'home_subtitle' => 'Your event caterer in Bordeaux for over 25 years',
+    'home_description' => 'Refined menus for all your events: weddings, birthdays, corporate meals...',
+    'home_cta' => 'Discover our menus',
+    'home_popular' => 'Our popular menus',
+    'home_popular_subtitle' => 'Our customers\' favorites',
+    'home_how_title' => 'How does it work?',
+    'home_how_subtitle' => '4 simple steps for your successful event',
+    'home_testimonials' => 'They trusted us',
+    'home_testimonials_subtitle' => 'Our customers reviews',
+    'home_ready_title' => 'Ready to organize your event?',
+    'home_ready_subtitle' => 'Discover our menus and order in a few clicks',
+    'home_view_menus' => 'View menus',
+    'home_contact_us' => 'Contact us',
+
+    'home_popular_badge' => 'Popular',
+    'home_step1_title' => 'Choose your menu',
+    'home_step1_desc' => 'Browse our catalog and select the perfect menu for your event',
+    'home_step2_title' => 'Place your order',
+    'home_step2_desc' => 'Indicate the number of people, date and confirm your order online',
+    'home_step3_title' => 'We prepare',
+    'home_step3_desc' => 'Our chefs prepare your menu with fresh, quality products',
+    'home_step4_title' => 'Delivery',
+    'home_step4_desc' => 'We deliver on time with the serving equipment included',
+    
+    // Menus
+    'menus_title' => 'Our menus',
+    'menus_filter_theme' => 'Filter by theme',
+    'menus_filter_regime' => 'Filter by diet',
+    'menus_all_themes' => 'All themes',
+    'menus_all_regimes' => 'All diets',
+    'menus_view_details' => 'View details',
+    'menus_order' => 'Order',
+    'menus_from' => 'From',
+    'menus_min_persons' => 'minimum persons',
+    
+    // Commande
+    'order_title' => 'Order this menu',
+    'order_nb_persons' => 'Number of persons',
+    'order_delivery_date' => 'Delivery date',
+    'order_delivery_time' => 'Delivery time',
+    'order_delivery_address' => 'Delivery address',
+    'order_promo_code' => 'Promo code',
+    'order_promo_optional' => 'If you have a promo code, enter it here to get a discount',
+    'order_submit' => 'Confirm order',
+    'order_total' => 'Total',
+    'order_menu_price' => 'Menu price',
+    'order_delivery_fee' => 'Delivery fee',
+    
+    // Commun
+    'common_welcome' => 'Welcome',
+    'common_loading' => 'Loading...',
+    'common_error' => 'Error',
+    'common_success' => 'Success',
+    'common_save' => 'Save',
+    'common_cancel' => 'Cancel',
+    'common_delete' => 'Delete',
+    'common_edit' => 'Edit',
+    'common_view' => 'View',
+    'common_back' => 'Back',
+    'common_search' => 'Search',
+];

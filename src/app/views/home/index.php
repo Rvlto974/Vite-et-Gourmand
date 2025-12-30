@@ -3,11 +3,11 @@
 <!-- Hero Section -->
 <div class="hero-section text-white py-5" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
     <div class="container text-center">
-        <h1 class="display-3 fw-bold mb-4">Bienvenue chez Vite & Gourmand</h1>
-        <p class="lead mb-4">Votre traiteur événementiel à Bordeaux depuis plus de 25 ans</p>
-        <p class="fs-5 mb-4">Des menus raffinés pour tous vos événements : mariages, anniversaires, repas d'entreprise...</p>
+        <h1 class="display-3 fw-bold mb-4"><?= __('home_title') ?></h1>
+        <p class="lead mb-4"><?= __('home_subtitle') ?></p>
+        <p class="fs-5 mb-4"><?= __('home_description') ?></p>
         <a href="/menu" class="btn btn-warning btn-lg px-5 py-3 fw-bold">
-            🍽️ Découvrir nos menus
+            🍽️ <?= __('home_cta') ?>
         </a>
     </div>
 </div>
@@ -15,13 +15,9 @@
 <!-- Section Menus Populaires -->
 <div class="container my-5">
     <div class="text-center mb-5">
-        <h2 class="display-5 fw-bold">🔥 Nos menus populaires</h2>
-        <p class="lead text-muted">Les préférés de nos clients</p>
+        <h2 class="display-5 fw-bold">🔥 <?= __('home_popular') ?></h2>
+        <p class="lead text-muted"><?= __('home_popular_subtitle') ?></p>
     </div>
-    
-    <?php 
-
-    ?>
     
     <div class="row">
         <?php if (!empty($top_menus)): ?>
@@ -30,9 +26,9 @@
                     <div class="card h-100 shadow-lg border-0">
                         <div class="position-relative">
                             <img src="<?= $menu['image'] ?>" class="card-img-top" alt="<?= htmlspecialchars($menu['titre']) ?>" 
-                                    style="height: 250px; object-fit: cover;">
+                                 style="height: 250px; object-fit: cover;">
                             <span class="position-absolute top-0 end-0 m-3 badge bg-danger fs-6">
-                                ⭐ Populaire
+                                ⭐ <?= __('home_popular_badge') ?>
                             </span>
                         </div>
                         <div class="card-body">
@@ -50,7 +46,7 @@
                             
                             <div class="d-flex justify-content-between align-items-center">
                                 <span class="h4 text-primary mb-0"><?= number_format($menu['prix_base'], 2) ?> €</span>
-                                <a href="/menu/show/<?= $menu['id_menu'] ?>" class="btn btn-primary">Voir détails</a>
+                                <a href="/menu/show/<?= $menu['id_menu'] ?>" class="btn btn-primary"><?= __('menus_view_details') ?></a>
                             </div>
                         </div>
                     </div>
@@ -64,7 +60,7 @@
     </div>
     
     <div class="text-center mt-4">
-        <a href="/menu" class="btn btn-outline-primary btn-lg">Voir tous les menus →</a>
+        <a href="/menu" class="btn btn-outline-primary btn-lg"><?= __('home_view_menus') ?> →</a>
     </div>
 </div>
 
@@ -72,8 +68,8 @@
 <div class="bg-light py-5">
     <div class="container">
         <div class="text-center mb-5">
-            <h2 class="display-5 fw-bold">💡 Comment ça marche ?</h2>
-            <p class="lead text-muted">4 étapes simples pour votre événement réussi</p>
+            <h2 class="display-5 fw-bold">💡 <?= __('home_how_title') ?></h2>
+            <p class="lead text-muted"><?= __('home_how_subtitle') ?></p>
         </div>
         
         <div class="row text-center">
@@ -81,11 +77,11 @@
                 <div class="card border-0 shadow-sm h-100">
                     <div class="card-body">
                         <div class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center mb-3" 
-                                style="width: 80px; height: 80px; font-size: 2rem;">
+                             style="width: 80px; height: 80px; font-size: 2rem;">
                             1️⃣
                         </div>
-                        <h5 class="fw-bold">Choisissez votre menu</h5>
-                        <p class="text-muted">Parcourez notre catalogue et sélectionnez le menu parfait pour votre événement</p>
+                        <h5 class="fw-bold"><?= __('home_step1_title') ?></h5>
+                        <p class="text-muted"><?= __('home_step1_desc') ?></p>
                     </div>
                 </div>
             </div>
@@ -94,11 +90,11 @@
                 <div class="card border-0 shadow-sm h-100">
                     <div class="card-body">
                         <div class="rounded-circle bg-success text-white d-inline-flex align-items-center justify-content-center mb-3" 
-                                style="width: 80px; height: 80px; font-size: 2rem;">
+                             style="width: 80px; height: 80px; font-size: 2rem;">
                             2️⃣
                         </div>
-                        <h5 class="fw-bold">Passez commande</h5>
-                        <p class="text-muted">Indiquez le nombre de personnes, la date et validez votre commande en ligne</p>
+                        <h5 class="fw-bold"><?= __('home_step2_title') ?></h5>
+                        <p class="text-muted"><?= __('home_step2_desc') ?></p>
                     </div>
                 </div>
             </div>
@@ -107,11 +103,11 @@
                 <div class="card border-0 shadow-sm h-100">
                     <div class="card-body">
                         <div class="rounded-circle bg-warning text-white d-inline-flex align-items-center justify-content-center mb-3" 
-                                style="width: 80px; height: 80px; font-size: 2rem;">
+                             style="width: 80px; height: 80px; font-size: 2rem;">
                             3️⃣
                         </div>
-                        <h5 class="fw-bold">Nous préparons</h5>
-                        <p class="text-muted">Nos chefs préparent votre menu avec des produits frais et de qualité</p>
+                        <h5 class="fw-bold"><?= __('home_step3_title') ?></h5>
+                        <p class="text-muted"><?= __('home_step3_desc') ?></p>
                     </div>
                 </div>
             </div>
@@ -120,11 +116,11 @@
                 <div class="card border-0 shadow-sm h-100">
                     <div class="card-body">
                         <div class="rounded-circle bg-danger text-white d-inline-flex align-items-center justify-content-center mb-3" 
-                                style="width: 80px; height: 80px; font-size: 2rem;">
+                             style="width: 80px; height: 80px; font-size: 2rem;">
                             4️⃣
                         </div>
-                        <h5 class="fw-bold">Livraison</h5>
-                        <p class="text-muted">Nous livrons à l'heure prévue avec le matériel de service inclus</p>
+                        <h5 class="fw-bold"><?= __('home_step4_title') ?></h5>
+                        <p class="text-muted"><?= __('home_step4_desc') ?></p>
                     </div>
                 </div>
             </div>
@@ -136,8 +132,8 @@
 <?php if (!empty($temoignages)): ?>
 <div class="container my-5">
     <div class="text-center mb-5">
-        <h2 class="display-5 fw-bold">💬 Ils nous ont fait confiance</h2>
-        <p class="lead text-muted">Les avis de nos clients</p>
+        <h2 class="display-5 fw-bold">💬 <?= __('home_testimonials') ?></h2>
+        <p class="lead text-muted"><?= __('home_testimonials_subtitle') ?></p>
     </div>
     
     <div class="row">
@@ -170,11 +166,11 @@
 <!-- Call to Action Final -->
 <div class="bg-primary text-white py-5">
     <div class="container text-center">
-        <h2 class="display-5 fw-bold mb-4">Prêt à organiser votre événement ?</h2>
-        <p class="lead mb-4">Découvrez nos menus et passez commande en quelques clics</p>
+        <h2 class="display-5 fw-bold mb-4"><?= __('home_ready_title') ?></h2>
+        <p class="lead mb-4"><?= __('home_ready_subtitle') ?></p>
         <div class="d-flex gap-3 justify-content-center">
-            <a href="/menu" class="btn btn-warning btn-lg px-5">Voir les menus</a>
-            <a href="/contact" class="btn btn-outline-light btn-lg px-5">Nous contacter</a>
+            <a href="/menu" class="btn btn-warning btn-lg px-5"><?= __('home_view_menus') ?></a>
+            <a href="/contact" class="btn btn-outline-light btn-lg px-5"><?= __('home_contact_us') ?></a>
         </div>
     </div>
 </div>

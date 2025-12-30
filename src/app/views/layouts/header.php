@@ -46,6 +46,22 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
+
+<!-- Sélecteur de langue -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="langDropdown" role="button" data-bs-toggle="dropdown">
+                            <?php if (Language::getCurrentLanguage() === 'fr'): ?>
+                                🇫🇷 FR
+                            <?php else: ?>
+                                🇬🇧 EN
+                            <?php endif; ?>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="/language/switch/fr">🇫🇷 Français</a></li>
+                            <li><a class="dropdown-item" href="/language/switch/en">🇬🇧 English</a></li>
+                        </ul>
+                    </li>
+
                     <li class="nav-item"><a class="nav-link" href="/">Accueil</a></li>
                     <li class="nav-item"><a class="nav-link" href="/menu">Menus</a></li>
                     <li class="nav-item"><a class="nav-link" href="/home/about">A propos</a></li>

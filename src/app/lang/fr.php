@@ -1,0 +1,67 @@
+<?php
+
+return [
+    // Navigation
+    'nav_home' => 'Accueil',
+    'nav_menus' => 'Nos Menus',
+    'nav_about' => 'À propos',
+    'nav_contact' => 'Contact',
+    'nav_login' => 'Connexion',
+    'nav_register' => 'Inscription',
+    'nav_logout' => 'Déconnexion',
+    'nav_dashboard' => 'Mon espace',
+    'nav_admin' => 'Administration',
+    
+    // Page d'accueil
+    'home_title' => 'Bienvenue chez Vite & Gourmand',
+    'home_subtitle' => 'Votre traiteur événementiel à Bordeaux depuis plus de 25 ans',
+    'home_description' => 'Des menus raffinés pour tous vos événements : mariages, anniversaires, repas d\'entreprise...',
+    'home_cta' => 'Découvrir nos menus',
+    'home_popular' => 'Nos menus populaires',
+    'home_popular_subtitle' => 'Les préférés de nos clients',
+    'home_how_title' => 'Comment ça marche ?',
+    'home_how_subtitle' => '4 étapes simples pour votre événement réussi',
+    'home_testimonials' => 'Ils nous ont fait confiance',
+    'home_testimonials_subtitle' => 'Les avis de nos clients',
+    'home_ready_title' => 'Prêt à organiser votre événement ?',
+    'home_ready_subtitle' => 'Découvrez nos menus et passez commande en quelques clics',
+    'home_view_menus' => 'Voir les menus',
+    'home_contact_us' => 'Nous contacter',
+    
+    // Menus
+    'menus_title' => 'Nos menus',
+    'menus_filter_theme' => 'Filtrer par thème',
+    'menus_filter_regime' => 'Filtrer par régime',
+    'menus_all_themes' => 'Tous les thèmes',
+    'menus_all_regimes' => 'Tous les régimes',
+    'menus_view_details' => 'Voir détails',
+    'menus_order' => 'Commander',
+    'menus_from' => 'À partir de',
+    'menus_min_persons' => 'personnes minimum',
+    
+    // Commande
+    'order_title' => 'Commander ce menu',
+    'order_nb_persons' => 'Nombre de personnes',
+    'order_delivery_date' => 'Date de livraison',
+    'order_delivery_time' => 'Heure de livraison',
+    'order_delivery_address' => 'Adresse de livraison',
+    'order_promo_code' => 'Code promo',
+    'order_promo_optional' => 'Si vous avez un code promo, entrez-le ici pour bénéficier d\'une réduction',
+    'order_submit' => 'Valider la commande',
+    'order_total' => 'Total',
+    'order_menu_price' => 'Prix du menu',
+    'order_delivery_fee' => 'Frais de livraison',
+    
+    // Commun
+    'common_welcome' => 'Bienvenue',
+    'common_loading' => 'Chargement...',
+    'common_error' => 'Erreur',
+    'common_success' => 'Succès',
+    'common_save' => 'Enregistrer',
+    'common_cancel' => 'Annuler',
+    'common_delete' => 'Supprimer',
+    'common_edit' => 'Modifier',
+    'common_view' => 'Voir',
+    'common_back' => 'Retour',
+    'common_search' => 'Rechercher',
+];

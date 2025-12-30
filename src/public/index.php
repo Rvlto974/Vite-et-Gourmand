@@ -2,6 +2,10 @@
 // Démarrer la session
 session_start();
 
+// Initialiser le système de traduction
+require_once __DIR__ . '/../app/helpers/Language.php';
+Language::init();
+
 // Autoloader simple
 spl_autoload_register(function ($class) {
     $paths = [
