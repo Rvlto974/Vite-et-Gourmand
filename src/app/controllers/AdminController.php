@@ -162,12 +162,6 @@ class AdminController {
         } else {
             $_SESSION['error'] = 'Erreur lors de la mise a jour';
         }
-
-        header('Location: /admin/orderDetail/' . $order_id);
-        exit;
-    }
-$email->send(
-                    $user['email'],
                     'Mise à jour de votre commande - Vite & Gourmand',
                     $email->getTemplate($content)
                 );
