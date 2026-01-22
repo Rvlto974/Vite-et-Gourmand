@@ -1,32 +1,23 @@
-﻿FROM php:8.2-apache
+﻿FROM php:8.2-fpm
 
+# Installation
 RUN apt-get update && apt-get install -y \
-    git curl libpng-dev libonig-dev libxml2-dev zip unzip libzip-dev \
+    nginx git curl libpng-dev libonig-dev libxml2-dev zip unzip libzip-dev \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN docker-php-ext-install pdo pdo_mysql mysqli mbstring exif pcntl bcmath gd zip
-
 RUN pecl install mongodb && docker-php-ext-enable mongodb
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Désactiver les MPM en conflit et activer prefork
-RUN a2dismod mpm_event mpm_worker || true
-RUN a2enmod mpm_prefork
-RUN a2enmod rewrite
-
-RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
-
-RUN sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available/000-default.conf
+# Config Nginx
+RUN echo 'server { listen 80; root /var/www/html/public; index index.php; location / { try_files \ \/ /index.php?\; } location ~ \.php\$ { fastcgi_pass 127.0.0.1:9000; fastcgi_index index.php; include fastcgi_params; fastcgi_param SCRIPT_FILENAME \\; } }' > /etc/nginx/sites-available/default
 
 COPY ./src /var/www/html
-
 WORKDIR /var/www/html
-
-RUN cd /var/www/html/public && composer install --no-dev --optimize-autoloader || true
-
-RUN chown -R www-data:www-data /var/www/html && chmod -R 755 /var/www/html
+RUN cd public && composer install --no-dev --optimize-autoloader || true
+RUN chown -R www-data:www-data /var/www/html
 
 EXPOSE 80
 
-CMD ["apache2-foreground"]
+CMD service php8.2-fpm start && nginx -g 'daemon off;'
