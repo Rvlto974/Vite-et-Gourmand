@@ -10,6 +10,9 @@ RUN pecl install mongodb && docker-php-ext-enable mongodb
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+# Désactiver les MPM en conflit et activer prefork
+RUN a2dismod mpm_event mpm_worker || true
+RUN a2enmod mpm_prefork
 RUN a2enmod rewrite
 
 RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
