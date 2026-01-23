@@ -9,6 +9,9 @@ RUN pecl install mongodb && docker-php-ext-enable mongodb
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+# Désactiver tous les MPM puis activer uniquement prefork
+RUN a2dismod mpm_event mpm_worker 2>/dev/null || true
+RUN a2enmod mpm_prefork
 RUN a2enmod rewrite
 
 RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
@@ -19,23 +22,12 @@ WORKDIR /var/www/html
 RUN cd public && composer install --no-dev --optimize-autoloader || true
 RUN chown -R www-data:www-data /var/www/html && chmod -R 755 /var/www/html
 
-# Créer un dossier pour les sessions PHP
 RUN mkdir -p /var/lib/php/sessions && chown -R www-data:www-data /var/lib/php/sessions
 
-# Config PHP
 RUN echo 'display_errors = On' >> /usr/local/etc/php/conf.d/custom.ini && \
     echo 'error_reporting = E_ALL' >> /usr/local/etc/php/conf.d/custom.ini && \
     echo 'session.save_path = "/var/lib/php/sessions"' >> /usr/local/etc/php/conf.d/custom.ini
 
-# Debug au démarrage
-RUN echo '#!/bin/bash' > /start.sh && \
-    echo 'echo "=== DEBUG INFO ===" ' >> /start.sh && \
-    echo 'ls -la /var/www/html/public/' >> /start.sh && \
-    echo 'cat /var/www/html/public/test.php' >> /start.sh && \
-    echo 'echo "=== END DEBUG ===" ' >> /start.sh && \
-    echo 'apache2-foreground' >> /start.sh && \
-    chmod +x /start.sh
-
 EXPOSE 80
 
-CMD ["/start.sh"]
+CMD ["apache2-foreground"]
