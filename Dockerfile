@@ -1,7 +1,7 @@
-﻿FROM php:8.2-fpm
+﻿FROM php:8.2-apache
 
 RUN apt-get update && apt-get install -y \
-    nginx git curl libpng-dev libonig-dev libxml2-dev zip unzip libzip-dev \
+    git curl libpng-dev libonig-dev libxml2-dev zip unzip libzip-dev \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN docker-php-ext-install pdo pdo_mysql mysqli mbstring exif pcntl bcmath gd zip
@@ -9,18 +9,21 @@ RUN pecl install mongodb && docker-php-ext-enable mongodb
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-RUN echo 'server { listen 80; root /var/www/html/public; index index.php; location / { try_files \$uri \$uri/ /index.php?\$query_string; } location ~ \.php\$ { fastcgi_pass 127.0.0.1:9000; fastcgi_index index.php; include fastcgi_params; fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name; } }' > /etc/nginx/sites-available/default
+RUN a2enmod rewrite
+
+RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
+
+RUN sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available/000-default.conf
 
 COPY ./src /var/www/html
 WORKDIR /var/www/html
 RUN cd public && composer install --no-dev --optimize-autoloader || true
-RUN chown -R www-data:www-data /var/www/html
+RUN chown -R www-data:www-data /var/www/html && chmod -R 755 /var/www/html
+
+# Activer les erreurs PHP
+RUN echo 'display_errors = On' >> /usr/local/etc/php/conf.d/custom.ini && \
+    echo 'error_reporting = E_ALL' >> /usr/local/etc/php/conf.d/custom.ini
 
 EXPOSE 80
 
-# Activer display_errors pour debug
-RUN echo 'display_errors = On' >> /usr/local/etc/php/php.ini && \
-    echo 'error_reporting = E_ALL' >> /usr/local/etc/php/php.ini && \
-    echo 'log_errors = On' >> /usr/local/etc/php/php.ini
-
-CMD php-fpm -D && nginx -g 'daemon off;'
+CMD ["apache2-foreground"]
