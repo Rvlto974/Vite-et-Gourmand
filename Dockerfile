@@ -18,4 +18,9 @@ RUN chown -R www-data:www-data /var/www/html
 
 EXPOSE 80
 
+# Activer display_errors pour debug
+RUN echo 'display_errors = On' >> /usr/local/etc/php/php.ini && \
+    echo 'error_reporting = E_ALL' >> /usr/local/etc/php/php.ini && \
+    echo 'log_errors = On' >> /usr/local/etc/php/php.ini
+
 CMD php-fpm -D && nginx -g 'daemon off;'
