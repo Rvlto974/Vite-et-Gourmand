@@ -12,7 +12,6 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN a2enmod rewrite
 
 RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
-
 RUN sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available/000-default.conf
 
 COPY ./src /var/www/html
@@ -20,10 +19,23 @@ WORKDIR /var/www/html
 RUN cd public && composer install --no-dev --optimize-autoloader || true
 RUN chown -R www-data:www-data /var/www/html && chmod -R 755 /var/www/html
 
-# Activer les erreurs PHP
+# Créer un dossier pour les sessions PHP
+RUN mkdir -p /var/lib/php/sessions && chown -R www-data:www-data /var/lib/php/sessions
+
+# Config PHP
 RUN echo 'display_errors = On' >> /usr/local/etc/php/conf.d/custom.ini && \
-    echo 'error_reporting = E_ALL' >> /usr/local/etc/php/conf.d/custom.ini
+    echo 'error_reporting = E_ALL' >> /usr/local/etc/php/conf.d/custom.ini && \
+    echo 'session.save_path = "/var/lib/php/sessions"' >> /usr/local/etc/php/conf.d/custom.ini
+
+# Debug au démarrage
+RUN echo '#!/bin/bash' > /start.sh && \
+    echo 'echo "=== DEBUG INFO ===" ' >> /start.sh && \
+    echo 'ls -la /var/www/html/public/' >> /start.sh && \
+    echo 'cat /var/www/html/public/test.php' >> /start.sh && \
+    echo 'echo "=== END DEBUG ===" ' >> /start.sh && \
+    echo 'apache2-foreground' >> /start.sh && \
+    chmod +x /start.sh
 
 EXPOSE 80
 
-CMD ["apache2-foreground"]
+CMD ["/start.sh"]
